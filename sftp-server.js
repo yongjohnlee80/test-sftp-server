@@ -1,13 +1,13 @@
 const fs = require('fs');
 const ssh2 = require('ssh2');
 
-const SSH2_FX_FAILURE = 0x0C1F804C
-const SSH2_FX_OK = 0x0C1F83E9
+const SSH2_FX_FAILURE = 4
+const SSH2_FX_OK = 0
 
 const privateKeyPath = '/Users/yongsunglee/.ssh/gcp_ed25519';
 const serverPort = 11115;
 
-const allowedUser = 'username';
+const allowedUser = 'tester';
 const allowedPublicKey = `-----BEGIN PUBLIC KEY-----
 ... Paste the allowed public key here ...
 -----END PUBLIC KEY-----`;
@@ -23,8 +23,8 @@ server.on('connection', (client) => {
 		if (
 			ctx.method === 'publickey' &&
 			ctx.username === allowedUser &&
-			ctx.key.algo === 'ssh-rsa' &&
-			ctx.key.data.toString('base64') === allowedPublicKey
+			ctx.key.algo === 'ssh-ed25519' // &&
+	// 		ctx.key.data.toString('base64') === allowedPublicKey
 		) {
 			ctx.accept();
 		} else {
