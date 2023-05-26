@@ -20,16 +20,17 @@ server.on('connection', (client) => {
 	console.log('Client connected');
 
 	client.on('authentication', (ctx) => {
-		if (
-			ctx.method === 'publickey' &&
-			ctx.username === allowedUser &&
-			ctx.key.algo === 'ssh-ed25519' // &&
+	// 	if (
+	// 		ctx.method === 'publickey' &&
+	// 		ctx.username === allowedUser &&
+	// 		ctx.key.algo === 'ssh-ed25519' // &&
 	// 		ctx.key.data.toString('base64') === allowedPublicKey
-		) {
-			ctx.accept();
-		} else {
-			ctx.reject();
-		}
+	// 	) {
+	// 		ctx.accept();
+	// 	} else {
+	// 		ctx.reject();
+	// 	}
+		ctx.accept();
 	});
 
 	client.on('ready', () => {
@@ -68,6 +69,12 @@ server.on('connection', (client) => {
 					console.log('File closed:', filePath);
 					sftp.status(reqid, SSH2_FX_OK);
 				});
+
+				sftp.on('MKDIR', (reqid, path, attrs) => {
+					console.log('Making Directory: ', path);
+					fs.mkdir(path, {recursive: true}, console.error)
+					sftp.status(reqid, SSH2_FX_OK);
+				})
 			});
 		});
 	});

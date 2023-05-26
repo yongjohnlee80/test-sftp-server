@@ -5,7 +5,7 @@ const privateKeyPath = '/Users/yongsunglee/.ssh/gcp_ed25519';
 const serverHost = '127.0.0.1';
 const serverPort = 11115;
 const username = 'tester';
-const remoteFilePath = 'uploaded_file.txt';
+const remoteFilePath = '/files/uploaded_file.txt';
 const localFilePath = 'hello.txt';
 
 const privateKey = fs.readFileSync(privateKeyPath);
